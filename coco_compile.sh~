@@ -1,0 +1,4 @@
+ #!/bin/bash         
+
+echo "Hello, World"
+cocos compile -p linux -m release
