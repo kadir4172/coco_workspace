@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include <iostream>
+#include <vector>
 
 USING_NS_CC;
 
