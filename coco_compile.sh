@@ -1,5 +1,6 @@
  #!/bin/bash         
 
-echo "Hello, World"
-cd /home/kadir/Desktop/Cocos/cocos2d-x-3.12/deneme/MyGame
+echo "Oyun derleniyor..."
+cp -r /home/kadir/Desktop/Coco/coco_workspace/* /home/kadir/Desktop/Coco/cocos2d-x-3.12/MyGame/MyGame
+cd /home/kadir/Desktop/Coco/cocos2d-x-3.12/MyGame/MyGame
 cocos compile -p linux -m release
