@@ -13,14 +13,20 @@ public:
     virtual bool init(void);
 
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    void menuGoHomeCallback(cocos2d::Ref* pSender);
+    void menuCloseCallback(cocos2d::Ref*);
+    void menuGoHomeCallback(cocos2d::Ref*);
+    void count_to_zero(float);
+    void addMonster(float);
+    static void set_init_counter(int);
+    bool onContactBegan(cocos2d::PhysicsContact &contact);
+    bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 
     // implement the "static create()" method manually
     CREATE_FUNC(GamePlay);
 
 private:
     cocos2d::Sprite* _player;
+    static int init_counter;
 
 };
 
