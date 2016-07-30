@@ -49,26 +49,43 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+
+    /////////////////////////////
+    // 2.5 add a start game button menu item
+
+
+    auto startgameItem = MenuItemImage::create(
+                                           "playnow_button.png",
+                                           "playnow_button.png",
+                                           CC_CALLBACK_1(HelloWorld::startgame_Callback, this));
+
+    startgameItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+
+    // create menu, it's an autorelease object
+    auto menu_start = Menu::create(startgameItem, NULL);
+    menu_start->setPosition(Vec2::ZERO);
+    this->addChild(menu_start, 1);
+
     /////////////////////////////
     // 3. add your codes below...
 
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = Label::createWithTTF("Hello Kadir", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Merhaba Ciko", "fonts/Marker Felt.ttf", 24);
     
     // position the label on the center of the screen
     label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
+                            origin.y + visibleSize.height - label->getContentSize().height/2));
 
     // add the label as a child to this layer
     this->addChild(label, 1);
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+    auto sprite = Sprite::create("HelloWorld.png"); //TODO: cikoyla resmimiz konacak
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height*3/4 + origin.y));
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
@@ -79,6 +96,7 @@ bool HelloWorld::init()
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
+
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 
@@ -91,5 +109,9 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
     
-    
+
+}
+
+void HelloWorld::startgame_Callback(Ref* pSender){
+
 }
