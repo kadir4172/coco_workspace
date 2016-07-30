@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 
+
 USING_NS_CC;
 
 int main(int argc, char **argv)
@@ -15,5 +16,7 @@ int main(int argc, char **argv)
     std::cout << "appdelegate adresi:" << &app << std::endl;
     std::cout << "application adresi:" << Application::getInstance() << std::endl;
     std::cout << "Oyun baslatiliyor" << std::endl;
+
     return Application::getInstance()->run();
+
 }

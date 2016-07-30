@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
@@ -89,7 +90,7 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
-    
+
     return true;
 }
 
@@ -113,5 +114,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 
 void HelloWorld::startgame_Callback(Ref* pSender){
+  auto scene = GamePlay::createScene();
+  Director::getInstance()->pushScene(TransitionFade::create(0.5, scene, Color3B(255,0,255)));
 
 }
