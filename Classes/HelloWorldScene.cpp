@@ -60,7 +60,7 @@ bool HelloWorld::init()
                                            "playnow_button.png",
                                            CC_CALLBACK_1(HelloWorld::startgame_Callback, this));
 
-    startgameItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    startgameItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + startgameItem->getContentSize().height/2));
 
     // create menu, it's an autorelease object
     auto menu_start = Menu::create(startgameItem, NULL);
@@ -73,7 +73,7 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = Label::createWithTTF("Merhaba Ciko", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Merhaba Ciko", "fonts/Marker Felt.ttf", 35);
     
     // position the label on the center of the screen
     label->setPosition(Vec2(origin.x + visibleSize.width/2,
@@ -87,10 +87,11 @@ bool HelloWorld::init()
 
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png"); //TODO: cikoyla resmimiz konacak
+    auto sprite = Sprite::create("kadir1.jpg");
+    sprite->setScale(0.5);
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height*3/4 + origin.y));
+    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height*2/4 + origin.y));
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
@@ -118,7 +119,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 
 void HelloWorld::startgame_Callback(Ref* pSender){
-  GamePlay::set_init_counter(5,10,3);
+  GamePlay::set_init_counter(7,10,3);
   auto scene = GamePlay::createScene();
   //schedule(schedule_selector(GamePlay::count_to_zero), 1);
   Director::getInstance()->pushScene(TransitionFade::create(0.5, scene, Color3B(255,0,255)));

@@ -77,7 +77,7 @@ bool GamePlay::init(void){
           this->addChild(menu2, 1);
 
 
-          auto label = Label::createWithTTF("Kadirden Baskasi Gelirse Oldur", "fonts/Marker Felt.ttf", 30);
+          auto label = Label::createWithTTF("        Kadirden Baskasi Gelirse Oldur\n Buyuk Odul icin 3 Opucuk Toplamaya Calis", "fonts/Marker Felt.ttf", 30);
 
               // position the label on the center of the screen
               label->setPosition(Vec2(origin.x + visibleSize.width/2,
@@ -122,9 +122,9 @@ bool GamePlay::init(void){
       this->addChild(background);
 
       //add ciko as a player
-      _player = Sprite::create("Homer_Simpson2.jpg");
-      _player->setScale(0.1);
-      _player->setPosition(Vec2(visibleSize.width * 0.1, visibleSize.height * 0.5));
+      _player = Sprite::create("ciko1.png");
+      _player->setScale(0.3);
+      _player->setPosition(Vec2(visibleSize.width * 0.9, visibleSize.height * 0.5));
       this->addChild(_player);
 
       srand((unsigned int)time(nullptr));
@@ -258,7 +258,7 @@ void GamePlay::addMonster(float dt){
     int rangeY = maxY - minY;
     int randomY = (rand() % rangeY) + minY;
 
-    monster->setPosition(Vec2(visibleSize.width + monsterContentSize.width/2 + origin.x, randomY));
+    monster->setPosition(Vec2(monsterContentSize.width/2 + origin.x, randomY));
     this->addChild(monster);
 
     // 2
@@ -268,7 +268,7 @@ void GamePlay::addMonster(float dt){
     int randomDuration = (rand() % rangeDuration) + minDuration;
 
     // 3
-    auto actionMove = MoveTo::create(randomDuration, Vec2(-monsterContentSize.width/2, randomY));
+    auto actionMove = MoveTo::create(randomDuration, Vec2(visibleSize.width - monsterContentSize.width/2, randomY));
     auto actionRemove = RemoveSelf::create();
 
     auto callback = CallFunc::create( [this, monster_type, visibleSize]() {
@@ -278,7 +278,7 @@ void GamePlay::addMonster(float dt){
              if(tmp_label != nullptr){
         	 tmp_label->setString("Can Sayisi:  " + std::to_string(this->live_counter));
              }
-             if(this->live_counter < 1){
+             if(this->live_counter < 1 &&  this->kiss_counter <= 2){
         	 this->unschedule(schedule_selector(GamePlay::addMonster));
         	 auto gameover = Sprite::create("gameover.png");
         	 gameover->setScale(0.9);
@@ -291,6 +291,13 @@ void GamePlay::addMonster(float dt){
              auto tmp_label = dynamic_cast<Label*>(this->getChildByTag(66));
              if(tmp_label != nullptr){
                tmp_label->setString("Opucuk Sayisi:  " + std::to_string(this->kiss_counter));
+             }
+             if(this->kiss_counter > 2){
+                     	 this->unschedule(schedule_selector(GamePlay::addMonster));
+                     	 auto evlilik = Sprite::create("evlilik.jpg");
+                     	 evlilik->setScale(0.9);
+                     	evlilik->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
+                     	 this->addChild(evlilik);
              }
          }
     });
@@ -310,7 +317,7 @@ bool GamePlay::onTouchBegan(Touch* touch, Event* unused_event) {
   Vec2 offset = touchLocation - _player->getPosition();
 
   // 3
-  if (offset.x < 0) {
+  if (offset.x > 0) {
     return true;
   }
 
@@ -370,7 +377,7 @@ bool GamePlay::onContactBegan(PhysicsContact &contact) {
   nodeB->removeFromParent();
   return true;
 }
-int GamePlay::init_counter = 5;
+int GamePlay::init_counter = 7;
 int GamePlay::monster_counter = 10;
 int GamePlay::live_counter = 3;
 int GamePlay::kiss_counter = 0;
