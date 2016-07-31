@@ -118,7 +118,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 
 void HelloWorld::startgame_Callback(Ref* pSender){
-  GamePlay::set_init_counter(5);
+  GamePlay::set_init_counter(5,10,3);
   auto scene = GamePlay::createScene();
   //schedule(schedule_selector(GamePlay::count_to_zero), 1);
   Director::getInstance()->pushScene(TransitionFade::create(0.5, scene, Color3B(255,0,255)));

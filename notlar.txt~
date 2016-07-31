@@ -1,1 +1,9 @@
 1) Coco2d engine opengl kullanarak ekranda pencere aciyor, bu pencere icerisinde cesitli animasyonlar oynatiyor ve eventler icin (mouse click keyboard input vb.) callback fonksiyonlari tanimliyor
+
+
+
+
+Sorular
+1)Menu item set position ne ise yariyor
+2)autorelease nasil saglaniyor
+3)GameScene.cpp de callback function da lambda kullandik, anlamaya calisalim

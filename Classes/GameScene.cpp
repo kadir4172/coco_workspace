@@ -14,6 +14,15 @@ enum class PhysicsCategory {
   All = PhysicsCategory::Monster | PhysicsCategory::Projectile // 3
 };
 
+enum class MonsterType{
+  Leonardo = 0,
+  Brad     = 1,
+  George   = 2,
+  Johnny   = 3,
+  Homie    = 4,
+  Minion   = 5,
+  Kadir    = 6
+};
 Scene* GamePlay::createScene()
 {
     // 'scene' is an autorelease object
@@ -87,6 +96,26 @@ bool GamePlay::init(void){
                      // add the label as a child to this layer
                      this->addChild(label2, 1, 46);
 
+            auto label3 = Label::createWithTTF("Can Sayisi:  " + std::to_string(this->live_counter), "fonts/Marker Felt.ttf", 30);
+
+                                   // position the label on the center of the screen
+           label3->setPosition(Vec2(origin.x + label3->getContentSize().width/2,
+                                                           origin.y + visibleSize.height - label3->getContentSize().height/2));
+
+                                   // add the label as a child to this layer
+           this->addChild(label3, 1, 56);
+
+           auto label4 = Label::createWithTTF("Opucuk Sayisi:  " + std::to_string(this->kiss_counter), "fonts/Marker Felt.ttf", 30);
+
+                                              // position the label on the center of the screen
+                      label4->setPosition(Vec2(origin.x - label4->getContentSize().width/2 + visibleSize.width,
+                                                                      origin.y + visibleSize.height - label4->getContentSize().height/2));
+
+                                              // add the label as a child to this layer
+                      this->addChild(label4, 1, 66);
+
+
+
       //fill the screen with gray color background
       auto background = DrawNode::create();
       background->drawSolidRect(origin, visibleSize, Color4F(0.6,0.6,0.6,1.0));
@@ -151,15 +180,55 @@ void GamePlay::count_to_zero(float dt){
       if(tmp_label != nullptr){
               this->removeChild(tmp_label, true);
       }
-      this->schedule(schedule_selector(GamePlay::addMonster), 3);
+      this->schedule(schedule_selector(GamePlay::addMonster), 2);
   }
 
 }
 
 void GamePlay::addMonster(float dt){
 
-    auto monster = Sprite::create("Johnny-Depp-Cartoon-Photo.png");
-    monster->setScale(0.1);
+    this->monster_counter -= 1;
+    auto monster_type = static_cast<MonsterType>(rand() % 7);
+    while(this->monster_counter > 0 && monster_type == MonsterType::Kadir){
+      monster_type = static_cast<MonsterType>(rand() % 7);
+    }
+
+    auto monster = Sprite::create();
+    switch(monster_type){
+      case MonsterType::Leonardo:
+	monster = Sprite::create("leonardo_cicekli.png");
+	monster->setScale(0.27);
+	break;
+      case MonsterType::Brad:
+      	monster = Sprite::create("brad_cicekli.png");
+      	monster->setScale(0.32);
+      	break;
+      case MonsterType::George:
+        monster = Sprite::create("george_cicek.png");
+        monster->setScale(0.35);
+        break;
+      case MonsterType::Johnny:
+        monster = Sprite::create("johnny_cicekli.png");
+        monster->setScale(0.25);
+        break;
+      case MonsterType::Homie:
+        monster = Sprite::create("Homer_Simpson2_cicekli.png");
+        monster->setScale(0.15);
+        break;
+      case MonsterType::Minion:
+        monster = Sprite::create("minyon_cicekli.png");
+        monster->setScale(0.5);
+        break;
+      case MonsterType::Kadir:
+        monster = Sprite::create("kadir_cicek.png");
+        monster->setScale(0.35);
+        break;
+      default:
+	monster = Sprite::create("minyon_cicekli.png");
+	monster->setScale(0.1);
+	break;
+    }
+
     auto monsterSize = monster->getBoundingBox().size;
     auto physicsBody = PhysicsBody::createBox(Size(monsterSize.width * 2.5 , monsterSize.height * 2.5),
                                               PhysicsMaterial(0.1f, 1.0f, 0.0f));
@@ -178,8 +247,14 @@ void GamePlay::addMonster(float dt){
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    auto tmp_label = dynamic_cast<Label*>(this->getChildByTag(56));
+    int margin = 0;
+    if(tmp_label != nullptr){
+	margin = tmp_label -> getContentSize().height;
+    }
+
     int minY = monsterContentSize.height/2;
-    int maxY = visibleSize.height - monsterContentSize.height/2;
+    int maxY = visibleSize.height - monsterContentSize.height/2 - margin;
     int rangeY = maxY - minY;
     int randomY = (rand() % rangeY) + minY;
 
@@ -195,7 +270,32 @@ void GamePlay::addMonster(float dt){
     // 3
     auto actionMove = MoveTo::create(randomDuration, Vec2(-monsterContentSize.width/2, randomY));
     auto actionRemove = RemoveSelf::create();
-    monster->runAction(Sequence::create(actionMove,actionRemove, nullptr));
+
+    auto callback = CallFunc::create( [this, monster_type, visibleSize]() {
+         if(monster_type != MonsterType::Kadir){
+             this->live_counter -= 1;
+             auto tmp_label = dynamic_cast<Label*>(this->getChildByTag(56));
+             if(tmp_label != nullptr){
+        	 tmp_label->setString("Can Sayisi:  " + std::to_string(this->live_counter));
+             }
+             if(this->live_counter < 1){
+        	 this->unschedule(schedule_selector(GamePlay::addMonster));
+        	 auto gameover = Sprite::create("gameover.png");
+        	 gameover->setScale(0.9);
+        	 gameover->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
+        	 this->addChild(gameover);
+             }
+         }
+         else{
+             this->kiss_counter += 1;
+             auto tmp_label = dynamic_cast<Label*>(this->getChildByTag(66));
+             if(tmp_label != nullptr){
+               tmp_label->setString("Opucuk Sayisi:  " + std::to_string(this->kiss_counter));
+             }
+         }
+    });
+
+    monster->runAction(Sequence::create(actionMove,actionRemove, callback, nullptr));
 
 
 
@@ -244,8 +344,12 @@ bool GamePlay::onTouchBegan(Touch* touch, Event* unused_event) {
   return true;
 }
 
-void GamePlay::set_init_counter(int value){
+void GamePlay::set_init_counter(int value, int value2, int value3){
   GamePlay::init_counter = value;
+  GamePlay::monster_counter = value2;
+  GamePlay::live_counter = value3;
+  GamePlay::kiss_counter = 0;
+
 }
 
 
@@ -267,3 +371,6 @@ bool GamePlay::onContactBegan(PhysicsContact &contact) {
   return true;
 }
 int GamePlay::init_counter = 5;
+int GamePlay::monster_counter = 10;
+int GamePlay::live_counter = 3;
+int GamePlay::kiss_counter = 0;
