@@ -122,7 +122,7 @@ bool GamePlay::init(void){
       this->addChild(background);
 
       //add ciko as a player
-      _player = Sprite::create("ciko1.png");
+      _player = Sprite::create("HelloWorld.png");
       _player->setScale(0.3);
       _player->setPosition(Vec2(visibleSize.width * 0.9, visibleSize.height * 0.5));
       this->addChild(_player);
@@ -196,35 +196,35 @@ void GamePlay::addMonster(float dt){
     auto monster = Sprite::create();
     switch(monster_type){
       case MonsterType::Leonardo:
-	monster = Sprite::create("leonardo_cicekli.png");
+	monster = Sprite::create("HelloWorld.png");
 	monster->setScale(0.27);
 	break;
       case MonsterType::Brad:
-      	monster = Sprite::create("brad_cicekli.png");
+      	monster = Sprite::create("HelloWorld.png");
       	monster->setScale(0.32);
       	break;
       case MonsterType::George:
-        monster = Sprite::create("george_cicek.png");
+        monster = Sprite::create("HelloWorld.png");
         monster->setScale(0.35);
         break;
       case MonsterType::Johnny:
-        monster = Sprite::create("johnny_cicekli.png");
+        monster = Sprite::create("HelloWorld.png");
         monster->setScale(0.25);
         break;
       case MonsterType::Homie:
-        monster = Sprite::create("Homer_Simpson2_cicekli.png");
+        monster = Sprite::create("HelloWorld.png");
         monster->setScale(0.15);
         break;
       case MonsterType::Minion:
-        monster = Sprite::create("minyon_cicekli.png");
+        monster = Sprite::create("HelloWorld.png");
         monster->setScale(0.5);
         break;
       case MonsterType::Kadir:
-        monster = Sprite::create("kadir_cicek.png");
+        monster = Sprite::create("HelloWorld.png");
         monster->setScale(0.35);
         break;
       default:
-	monster = Sprite::create("minyon_cicekli.png");
+	monster = Sprite::create("HelloWorld.png");
 	monster->setScale(0.1);
 	break;
     }
@@ -280,7 +280,7 @@ void GamePlay::addMonster(float dt){
              }
              if(this->live_counter < 1 &&  this->kiss_counter <= 2){
         	 this->unschedule(schedule_selector(GamePlay::addMonster));
-        	 auto gameover = Sprite::create("gameover.png");
+        	 auto gameover = Sprite::create("HelloWorld.png");
         	 gameover->setScale(0.9);
         	 gameover->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
         	 this->addChild(gameover);
@@ -294,7 +294,7 @@ void GamePlay::addMonster(float dt){
              }
              if(this->kiss_counter > 2){
                      	 this->unschedule(schedule_selector(GamePlay::addMonster));
-                     	 auto evlilik = Sprite::create("evlilik.jpg");
+                     	 auto evlilik = Sprite::create("HelloWorld.png");
                      	 evlilik->setScale(0.9);
                      	evlilik->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
                      	 this->addChild(evlilik);
@@ -322,7 +322,7 @@ bool GamePlay::onTouchBegan(Touch* touch, Event* unused_event) {
   }
 
   // 4
-  auto projectile = Sprite::create("Bomb.png");
+  auto projectile = Sprite::create("HelloWorld.png");
   projectile->setScale(0.2);
   projectile->setPosition(this->_player->getPosition());
 
@@ -363,7 +363,7 @@ void GamePlay::set_init_counter(int value, int value2, int value3){
 bool GamePlay::onContactBegan(PhysicsContact &contact) {
   auto nodeA = contact.getShapeA()->getBody()->getNode();
   auto nodeB = contact.getShapeB()->getBody()->getNode();
-  auto bang = Sprite::create("bang.png");
+  auto bang = Sprite::create("HelloWorld.png");
   bang->setScale(0.03);
   bang->setPosition(nodeA->getPosition());
   this->addChild(bang);
