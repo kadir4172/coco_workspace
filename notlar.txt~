@@ -4,6 +4,7 @@
 
 
 Sorular
-1)Menu item set position ne ise yariyor
+
 2)autorelease nasil saglaniyor
-3)GameScene.cpp de callback function da lambda kullandik, anlamaya calisalim
+
+4)Bir tane sifirdan application yazalim, bircok layer olsun bir scene icerisinde

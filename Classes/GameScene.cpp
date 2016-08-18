@@ -63,8 +63,8 @@ bool GamePlay::init(void){
 
 
       auto backtoMainItem = MenuItemImage::create(
-                                                 "home_button.png",
-                                                 "home_button.png",
+                                                 "HelloWorld.png",
+                                                 "HelloWorld.png",
                                                  CC_CALLBACK_1(GamePlay::menuGoHomeCallback, this));
       backtoMainItem->setScale(0.05);
 
@@ -270,7 +270,7 @@ void GamePlay::addMonster(float dt){
     // 3
     auto actionMove = MoveTo::create(randomDuration, Vec2(visibleSize.width - monsterContentSize.width/2, randomY));
     auto actionRemove = RemoveSelf::create();
-
+//argument to create() function == std::function<void()> &func
     auto callback = CallFunc::create( [this, monster_type, visibleSize]() {
          if(monster_type != MonsterType::Kadir){
              this->live_counter -= 1;

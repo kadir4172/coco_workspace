@@ -3,7 +3,7 @@
 #include "GameScene.h"
 
 USING_NS_CC;
-
+Sprite* sprite = nullptr;
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -56,8 +56,8 @@ bool HelloWorld::init()
 
 
     auto startgameItem = MenuItemImage::create(
-                                           "playnow_button.png",
-                                           "playnow_button.png",
+                                           "HelloWorld.png",
+                                           "HelloWorld.png",
                                            CC_CALLBACK_1(HelloWorld::startgame_Callback, this));
 
     startgameItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + startgameItem->getContentSize().height/2));
@@ -87,7 +87,8 @@ bool HelloWorld::init()
 
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+
+    sprite = Sprite::create("HelloWorld.png");
     sprite->setScale(0.5);
 
     // position the sprite on the center of the screen
@@ -121,6 +122,10 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::startgame_Callback(Ref* pSender){
   GamePlay::set_init_counter(7,10,3);
   auto scene = GamePlay::createScene();
+  if(sprite != nullptr){
+	 // sprite->setScale(5);
+  }
+
   //schedule(schedule_selector(GamePlay::count_to_zero), 1);
   Director::getInstance()->pushScene(TransitionFade::create(0.5, scene, Color3B(255,0,255)));
 
